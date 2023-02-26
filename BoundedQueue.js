@@ -1,28 +1,18 @@
-const LinkedList = require('./LinkedList');
+const LinkedList = require("./LinkedList");
 
 class Queue {
   constructor(maxSize = Infinity) {
     this.queue = new LinkedList();
-    this.size = 0;
     this.maxSize = maxSize;
-  }
-
-  hasRoom() {
-    if (this.size < this.maxSize) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    this.size = 0;
   }
 
   isEmpty() {
-    if (this.size === 0) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    return this.size === 0;
+  }
+
+  hasRoom() {
+    return this.size < this.maxSize;
   }
 
   enqueue(data) {
@@ -32,11 +22,21 @@ class Queue {
   }
 
   dequeue() {
-    const data = this.queue.removeHead();
-    this.size--;
-    console.log(`Removed ${data} from queue! Queue size is now ${this.size}.`);
-    return data;
+    if (!this.isEmpty()) {
+       const data = this.queue.removeHead();
+      this.size--;
+      console.log(`Removed ${data} from queue! Queue size is now ${this.size}.`);
+      return data;
+    }
+    else {
+      throw new Error('Queue is empty!');
+    }
   }
 }
 
 module.exports = Queue;
+
+const boundedQueue = new Queue(3);
+boundedQueue.enqueue(1);
+boundedQueue.enqueue(2);
+boundedQueue.enqueue(3);
